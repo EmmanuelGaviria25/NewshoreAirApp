@@ -1,0 +1,83 @@
+<div class="container mt-2">
+    <h5 class="card-title">Get routing</h5>
+    <div class="input-group" style="padding: 10px;">
+        <input id="typeahead-basic" type="text" class="form-control" maxlength="3" [(ngModel)]="originInput"
+            [ngbTypeahead]="searchOrigin" oninput="this.value = this.value.toUpperCase();" />
+
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="">
+                <>
+            </span>
+        </div>
+
+        <input id="typeahead-basic" type="text" class="form-control" maxlength="3" [(ngModel)]="destinationInput"
+            [ngbTypeahead]="searchDestination" oninput="this.value = this.value.toUpperCase();" />
+
+        <div class="input-group-prepend">
+            <button class="btn btn-primary" (click)="searchFlightRoute()">Calculate</button>
+        </div>
+    </div>
+    <div *ngIf="showError" class="d-flex justify-content-center">
+        <div class="alert alert-danger" role="alert">
+            <h5 class="text-danger">Cannot search a journey</h5>
+        </div>
+    </div>
+    <div *ngIf="showJourney">
+        <div>
+            <h3>Flight route</h3>
+            <br>
+        </div>
+        <div class="row row-cols-4 g-4 d-flex justify-content-center">
+            <div class="col-1" style="margin-top: 0">
+                <img src="../../assets/images/fly-svgrepo-com.svg" width="120" height="200" alt="">
+            </div>
+            <div class="col-1" style="margin-top: 0">
+                <img src="../../assets/images/arrow-right-336-svgrepo-com.svg" width="60" height="200" alt="">
+            </div>
+
+            <div class="row row-cols-2" *ngFor="let flight of journey?.flights">
+                <div class="col-9 card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{flight.transport.flightCarrier}}{{flight.transport.flightNumber}}
+                        </h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">{{flight.departureStation}}</li>
+                            <li class="list-group-item">{{flight.arrivalStation}}</li>
+                            <li class="list-group-item">${{flight.price}}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <img src="../../assets/images/arrow-right-336-svgrepo-com.svg" width="60" height="200" alt="">
+                </div>
+            </div>
+
+            <div class="col-1" style="margin-top: 0">
+                <img src="../../assets/images/map-marker-svgrepo-com.svg" width="60" height="200" alt="">
+            </div>
+        </div>
+        <br>
+        <h5>Total: ${{journey?.price}}</h5>
+    </div>
+    <br>
+    <hr>
+    <div>
+        <div>
+            <h5>Flight available</h5>
+        </div>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col" *ngFor="let flight of flights$ | async">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{flight.transport.flightCarrier}}{{flight.transport.flightNumber}}</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">{{flight.departureStation}}</li>
+                        <li class="list-group-item">{{flight.arrivalStation}}</li>
+                        <li class="list-group-item">${{flight.price}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
